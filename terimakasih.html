@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terima Kasih - Dinas Arpus Pekalongan</title>
+    <style>
+        :root { --biru: #003d7a; --langit: #007bff; --hijau: #28a745; --text: #333; }
+        
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            background: #cbdcf7; 
+            margin: 0; 
+            min-height: 100vh; 
+            padding: 20px; 
+            display: flex; 
+            justify-content: center; 
+            color: var(--text); 
+        }
+
+        /* CONTAINER - Disamakan persis dengan index.html (1400px) */
+        .container { 
+            background: white; 
+            width: 95%; 
+            max-width: 1400px; 
+            border-radius: 15px; 
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15); 
+            overflow: hidden; 
+            position: relative;
+            align-self: flex-start; /* Agar posisi atasnya sama dengan halaman depan */
+        }
+        
+        /* HEADER - Disamakan persis dengan index.html */
+        .header { 
+            background: linear-gradient(135deg, var(--biru), var(--langit)); 
+            padding: 20px 40px; 
+            display: flex; 
+            align-items: center; 
+            color: white; 
+            gap: 20px; 
+        }
+        .header img { width: 50px; height: auto; }
+        .header .title-area { display: flex; flex-direction: column; }
+        .header h1 { margin: 0; font-size: 32px; line-height: 1; text-transform: uppercase; }
+        .header h2 { margin: 5px 0 0 0; font-size: 16px; font-weight: 300; }
+
+        /* CONTENT AREA */
+        .content {
+            padding: 40px 50px;
+            text-align: center;
+            max-width: 900px; /* Isi teks tetap di tengah agar tidak terlalu lebar menyamping */
+            margin: 0 auto;
+        }
+
+        .content h3 {
+            font-size: 42px;
+            color: var(--biru);
+            margin-bottom: 20px;
+        }
+
+        .message {
+            font-size: 20px;
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 40px;
+        }
+
+        #nama-user { font-weight: bold; color: var(--biru); }
+
+        .footer-info {
+            border-top: 1px solid #eee;
+            padding-top: 30px;
+            margin-bottom: 40px;
+        }
+
+        .instansi { font-weight: bold; font-size: 18px; color: var(--text); }
+        .address { font-size: 15px; color: #777; margin: 10px 0; }
+        .web-link { color: var(--langit); text-decoration: none; font-weight: bold; }
+
+        /* TOMBOL - Disamakan dengan style tombol index.html */
+        .btn { 
+            display: inline-block;
+            background: var(--langit); 
+            color: white; 
+            border: none; 
+            padding: 18px 60px; 
+            border-radius: 10px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            font-size: 16px; 
+            text-decoration: none;
+            transition: 0.2s;
+        }
+        .btn:hover { background: var(--biru); transform: translateY(-2px); }
+
+        /* RESPONSIVE UNTUK HP */
+        @media (max-width: 768px) {
+            .header { padding: 16px; flex-direction: column; text-align: center; }
+            .header h1 { font-size: 20px; }
+            .header h2 { font-size: 13px; }
+            .content { padding: 40px 20px; }
+            .content h3 { font-size: 28px; }
+            .message { font-size: 16px; }
+            .btn { width: 100%; box-sizing: border-box; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <img src="dinas.png" alt="Logo"> 
+        <div class="title-area">
+            <h1>DINAS ARPUS</h1>
+            <h2>Kabupaten Pekalongan</h2>
+        </div>
+    </div>
+
+    <div class="content">
+        <h3>TERIMA KASIH</h3>
+        
+        <p class="message">
+            Hai <span id="nama-user">Saudara/i</span>, Terima Kasih telah mengisi Survei Kepuasan Masyarakat Dinas Kearsipan dan Perpustakaan Kabupaten Pekalongan. Dengan mengisi Survei Kepuasan Masyarakat anda telah berpartisipasi dalam penilaian layanan yang ada di Dinas Kearsipan dan perpustakaan. 
+            Kami akan memperbaiki dan meningkatkan Layanan kami Terhadap Masyarakat.
+
+        <div class="footer-info">
+            <div class="instansi">DINAS ARPUS Kabupaten Pekalongan</div>
+            <div class="address">Jalan Krakatau No. 3, Nyamok, Kecamatan Kajen, Kabupaten Pekalongan</div>
+            <a href="https://dinasarpus.pekalongankab.go.id/" class="web-link" target="_blank">arpus.pekalongankab.go.id</a>
+        </div>
+
+        <a href="index.html" class="btn">KEMBALI KE BERANDA</a>
+    </div>
+</div>
+
+<script>
+    const params = new URLSearchParams(window.location.search);
+    const nama = params.get('nama');
+    if (nama) { document.getElementById('nama-user').innerText = nama; }
+</script>
+
+</body>
+</html>
