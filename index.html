@@ -217,15 +217,35 @@
         <label style="font-weight: normal;"><input type="radio" name="usia_pilihan" value="40 - 49"> 40 - 49</label>
         <label style="font-weight: normal;"><input type="radio" name="usia_pilihan" value=">= 50"> >= 50</label>
     </div>
-    <label>Email </label>
-    <input type="email" id="email_user" placeholder="contoh@gmail.com">
     <input type="hidden" id="usia">
 </div>
             <div class="form-group"><label>Nomor HP</label><input type="number" id="WA" placeholder="08xxxxxxxxxx" required></div>
             
             <div class="form-group"><label>Pendidikan</label><select id="pendidikan"><option value="">-- Pilih --</option><option value="SD/Sederajat">SD/Sederajat</option><option value="SMP">SMP/Sederajat</option><option value="SMA/SMK/Sederajat">SMA/SMK/Sederajat</option>
                 <option value="Diploma">Diploma</option><option value="S1">S1</option><option value="S2/S3">S2/S3</option></select></div>
-            <div class="form-group"><label>Pekerjaan</label><select id="pekerjaan"><option value="">-- Pilih --</option><option value="PNS">PNS</option><option value="TNI">TNI</option><option value="Swasta">Swasta</option><option value="Wirausaha">Wirausaha</option><option value="Pelajar/Mahasiswa">Pelajar/Mahasiswa</option><option value="Lainnya">Lainnya</option></select></div>
+            <div class="form-group"><label>Pekerjaan</label><select id="pekerjaan"><option value="">-- Pilih --</option>
+                  <option value="PNS/PPPK">PNS/PPPK</option> 
+               <option value="TNI/POLRI">TNI/POLRI</option>
+               <option value="Karyawan Swasta">Karyawan Swasta</option>
+                <option value="Karyawan Honorer">Karyawan Honorer</option>
+               <option value="Karyawan BUMD/BUMN">Karyawan BUMD/BUMN</option>
+               <option value="Dosen">Dosen</option>
+               <option value="Wiraswasta">Wiraswasta</option>
+                <option value="Pelajar/Mahasiswa">Pelajar/Mahasiswa</option>
+                <option value="Pedagang">Pedagang</option> 
+                <option value="Ibu Rumah Tangga">Ibu Rumah Tangga</option>
+                <option value="Nelayan">Nelayan</option> 
+                <option value="Seniman">Seniman</option> 
+                <option value="Bidan">Bidan</option> 
+                <option value="Dokter">Dokter</option> 
+                <option value="Apoteker">Apoteker</option>
+                <option value="Perawat">Perawat</option> 
+                <option value="Ustadz/Ustadzah">Ustadz/Ustadzah</option> 
+                <option value="Pengusaha">Pengusaha</option> 
+                <option value="Pensiunan">Pensiunan</option> 
+                 <option value="konten creator">konten creator</option> 
+                <option value="Belum/Tidak Bekerja">Belum/Tidak Bekerja</option> 
+                <option value="Lainnya">Lainnya</option></select></div>
             <div class="form-group"><label>Kecamatan</label>
                 <select id="kec">
                     <option value="">-- Pilih --</option>
@@ -265,7 +285,7 @@
         </div>
 
         <div id="stepQ2" class="q-box">
-            <h3>bagaimana pemahaman saudara tentang kemudahan prosedur layanan di unit ini?</h3>
+            <h3>Bagaimana pemahaman saudara tentang kemudahan prosedur layanan di unit ini?</h3>
             <div class="emoji-grid" id="q2">
                 <div class="emoji-item" onclick="pilih(this, 'q2', 100)"><span>😍</span><b>Sangat Mudah</b></div>
                 <div class="emoji-item" onclick="pilih(this, 'q2', 75)"><span>😊</span><b>Mudah</b></div>
@@ -298,7 +318,7 @@
         </div>
 
             <div id="stepQ5" class="q-box">
-            <h3>bagaimana pendapat saudara tentang kesesuaian produk pelayanan antara yang tercantum dalam standar pelayanan dengan hasil yang di berikan</h3>
+            <h3>Bagaimana pendapat saudara tentang kesesuaian produk pelayanan antara yang tercantum dalam standar pelayanan dengan hasil yang di berikan</h3>
             <div class="emoji-grid" id="q5">
                 <div class="emoji-item" onclick="pilih(this, 'q5', 100)"><span>😍</span><b>Sangat Sesuai</b></div>
                 <div class="emoji-item" onclick="pilih(this, 'q5', 75)"><span>😊</span><b>Sesuai</b></div>
@@ -309,7 +329,7 @@
         </div>
 
             <div id="stepQ6" class="q-box">
-            <h3>bagaimana pendapat saudara tentang kompetensi atau kemampuan petugas dalam pelayanan?</h3>
+            <h3>Bagaimana pendapat saudara tentang kompetensi atau kemampuan petugas dalam pelayanan?</h3>
             <div class="emoji-grid" id="q6">
                 <div class="emoji-item" onclick="pilih(this, 'q6', 100)"><span>😍</span><b>Sangat Kompeten</b></div>
                 <div class="emoji-item" onclick="pilih(this, 'q6', 75)"><span>😊</span><b>Kompeten</b></div>
@@ -320,7 +340,7 @@
         </div>
 
              <div id="stepQ7" class="q-box">
-            <h3>bagaimana pendapat saudara perilaku petugas dalam pelayanan terkait kesopanan dan keramahan?</h3>
+            <h3>Bagaimana pendapat saudara perilaku petugas dalam pelayanan terkait kesopanan dan keramahan?</h3>
             <div class="emoji-grid" id="q7">
                 <div class="emoji-item" onclick="pilih(this, 'q7', 100)"><span>😍</span><b>Sangat Sopan dan Ramah</b></div>
                 <div class="emoji-item" onclick="pilih(this, 'q7', 75)"><span>😊</span><b>Sopan Dan Ramah</b></div>
@@ -331,7 +351,7 @@
         </div>
 
              <div id="stepQ8" class="q-box">
-            <h3>bagaimana pendapat saudara tentang kualitas sarana dan prasarana?</h3>
+            <h3>Bagaimana pendapat saudara tentang kualitas sarana dan prasarana?</h3>
             <div class="emoji-grid" id="q8">
                 <div class="emoji-item" onclick="pilih(this, 'q8', 100)"><span>😍</span><b>Sangat Baik</b></div>
                 <div class="emoji-item" onclick="pilih(this, 'q8', 75)"><span>😊</span><b>Baik</b></div>
@@ -342,7 +362,7 @@
         </div>
 
               <div id="stepQ9" class="q-box">
-            <h3>bagaimana pendapat saudara tentang penanganan, pengaduan pengguna layanan?</h3>
+            <h3>Bagaimana pendapat saudara tentang penanganan, pengaduan pengguna layanan?</h3>
             <div class="emoji-grid" id="q9">
                 <input type="hidden" name="q9" id="q9_input" value="">
                 <div class="emoji-item" onclick="pilih(this, 'q9', 100)"><span>😍</span><b>Dikelola Dengan Baik</b></div>
@@ -457,7 +477,7 @@
     const fields = ['nama', 'jk', 'WA', 'usia', 'pendidikan', 'pekerjaan', 'kec', 'layanan'];
     for(let f of fields) { 
         if(document.getElementById(f).value === "") {
-            return alert("Mohon lengkapi seluruh data dan pilih rentang umur!"); 
+            return alert("Harap melengkapi seluruh kolom yang tersedia sebelum melanjutkan!"); 
         }
     }
     
@@ -490,12 +510,10 @@
     document.getElementById('successOverlay').style.display = 'flex'; // Menampilkan ucapan di web
     
     let namaUser = document.getElementById('nama').value;
-    let emailUser = document.getElementById('email_user').value; // Mengambil input email baru
 
     let dataBaru = {
         id: Date.now(),
         n: namaUser,
-        email: emailUser, // Data email dikirim ke server
         j: document.getElementById('jk').value,
         w: document.getElementById('WA').value,
         p: document.getElementById('pekerjaan').value,
