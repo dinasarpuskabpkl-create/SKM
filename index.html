@@ -208,10 +208,24 @@
         <div class="form-grid">
             <div class="form-group"><label>Nama Lengkap</label><input type="text" id="nama"></div>
             <div class="form-group"><label>Jenis Kelamin</label><select id="jk"><option value="">-- Pilih --</option><option value="L">Laki-laki</option><option value="P">Perempuan</option></select></div>
-            <div class="form-group"><label>Usia</label><input type="number" id="usia"></div>
-            <div class="form-group"><label>Nomor Aktif (WA)</label><input type="number" id="WA" placeholder="08xxxxxxxxxx" required></div>
-            <div class="form-group"><label>Pendidikan</label><select id="pendidikan"><option value="">-- Pilih --</option><option value="SD/SMP">SD/SMP</option><option value="SMA/SMK">SMA/SMK</option><option value="Sarjana">Sarjana/Diploma</option></select></div>
-            <div class="form-group"><label>Pekerjaan</label><select id="pekerjaan"><option value="">-- Pilih --</option><option value="PNS">PNS</option><option value="TNI">TNI</option><option value="Swasta">Swasta</option><option value="Wirausaha">Wirausaha</option><option value="Lainnya">Lainnya</option></select></div>
+           <div class="form-group">
+    <label>Umur</label>
+    <div style="display: flex; flex-wrap: wrap; gap: 15px; margin-top: 10px;">
+        <label style="font-weight: normal;"><input type="radio" name="usia_pilihan" value="< 20"> < 20</label>
+        <label style="font-weight: normal;"><input type="radio" name="usia_pilihan" value="20 - 29"> 20 - 29</label>
+        <label style="font-weight: normal;"><input type="radio" name="usia_pilihan" value="30 - 39"> 30 - 39</label>
+        <label style="font-weight: normal;"><input type="radio" name="usia_pilihan" value="40 - 49"> 40 - 49</label>
+        <label style="font-weight: normal;"><input type="radio" name="usia_pilihan" value=">= 50"> >= 50</label>
+    </div>
+    <label>Email </label>
+    <input type="email" id="email_user" placeholder="contoh@gmail.com">
+    <input type="hidden" id="usia">
+</div>
+            <div class="form-group"><label>Nomor HP</label><input type="number" id="WA" placeholder="08xxxxxxxxxx" required></div>
+            
+            <div class="form-group"><label>Pendidikan</label><select id="pendidikan"><option value="">-- Pilih --</option><option value="SD/Sederajat">SD/Sederajat</option><option value="SMP">SMP/Sederajat</option><option value="SMA/SMK/Sederajat">SMA/SMK/Sederajat</option>
+                <option value="Diploma">Diploma</option><option value="S1">S1</option><option value="S2/S3">S2/S3</option></select></div>
+            <div class="form-group"><label>Pekerjaan</label><select id="pekerjaan"><option value="">-- Pilih --</option><option value="PNS">PNS</option><option value="TNI">TNI</option><option value="Swasta">Swasta</option><option value="Wirausaha">Wirausaha</option><option value="Pelajar/Mahasiswa">Pelajar/Mahasiswa</option><option value="Lainnya">Lainnya</option></select></div>
             <div class="form-group"><label>Kecamatan</label>
                 <select id="kec">
                     <option value="">-- Pilih --</option>
@@ -317,7 +331,7 @@
         </div>
 
              <div id="stepQ8" class="q-box">
-            <h3>bagaimana pedapat saudara tentang kualitas sarana dan prasarana?</h3>
+            <h3>bagaimana pendapat saudara tentang kualitas sarana dan prasarana?</h3>
             <div class="emoji-grid" id="q8">
                 <div class="emoji-item" onclick="pilih(this, 'q8', 100)"><span>😍</span><b>Sangat Baik</b></div>
                 <div class="emoji-item" onclick="pilih(this, 'q8', 75)"><span>😊</span><b>Baik</b></div>
@@ -420,6 +434,7 @@
         for (let i = TAHUN_INI; i >= TAHUN_INI - 2; i--) {
             let o = document.createElement('option'); o.value = i; o.innerText = i; st.appendChild(o);
         }
+       
     }
 
     function go(s) {
@@ -430,10 +445,26 @@
     }
 
     function validasiBiodata() {
-        const fields = ['nama', 'jk','WA' ,'usia', 'pendidikan', 'pekerjaan', 'kec', 'layanan'];
-        for(let f of fields) { if(document.getElementById(f).value === "") return alert("Mohon lengkapi seluruh data!"); }
-        go(3);
+    // 1. Ambil nilai dari radio button umur yang dipilih responden
+    const pilihanUsia = document.querySelector('input[name="usia_pilihan"]:checked');
+    
+    // 2. Masukkan nilainya ke input hidden 'usia' agar bisa dibaca oleh sistem 'fields' di bawah
+    if (pilihanUsia) {
+        document.getElementById('usia').value = pilihanUsia.value;
     }
+
+    // 3. Validasi semua kolom termasuk umur
+    const fields = ['nama', 'jk', 'WA', 'usia', 'pendidikan', 'pekerjaan', 'kec', 'layanan'];
+    for(let f of fields) { 
+        if(document.getElementById(f).value === "") {
+            return alert("Mohon lengkapi seluruh data dan pilih rentang umur!"); 
+        }
+    }
+    
+    // 4. Jika semua sudah terisi, lanjut ke kuesioner
+    go(3);
+}
+    
 
     function nextQ(n) {
         if(!skor['q'+(n-1)]) return alert("Pilih salah satu emoji!");
@@ -455,46 +486,42 @@
     function tutupModal() { document.getElementById('modalKonfirmasi').style.display = 'none'; }
 
     function prosesSimpan() {
-        tutupModal();
-        document.getElementById('successOverlay').style.display = 'flex';
-        
-        let namaUser = document.getElementById('nama').value;
-        let db = JSON.parse(localStorage.getItem('dbArpusResmi')) || [];
-        
-        let dataBaru = {
-            id: Date.now(),
-            n: namaUser,
-            j: document.getElementById('jk').value,
-            w: document.getElementById('WA').value,
-            p: document.getElementById('pekerjaan').value,
-            k: document.getElementById('kec').value,
-            l: document.getElementById('layanan').value,
-            y: TAHUN_INI,
-            s1: skor.q1, s2: skor.q2, s3: skor.q3, s4: skor.q4, 
-            s5: skor.q5, s6: skor.q6, s7: skor.q7, s8: skor.q8, s9: skor.q9,
-            saran: document.getElementById('Saran').value
-        };
+    tutupModal();
+    document.getElementById('successOverlay').style.display = 'flex'; // Menampilkan ucapan di web
+    
+    let namaUser = document.getElementById('nama').value;
+    let emailUser = document.getElementById('email_user').value; // Mengambil input email baru
 
-        db.push(dataBaru);
-        localStorage.setItem('dbArpusResmi', JSON.stringify(db));
+    let dataBaru = {
+        id: Date.now(),
+        n: namaUser,
+        email: emailUser, // Data email dikirim ke server
+        j: document.getElementById('jk').value,
+        w: document.getElementById('WA').value,
+        p: document.getElementById('pekerjaan').value,
+        k: document.getElementById('kec').value,
+        l: document.getElementById('layanan').value,
+        y: TAHUN_INI,
+        s1: skor.q1, s2: skor.q2, s3: skor.q3, s4: skor.q4, 
+        s5: skor.q5, s6: skor.q6, s7: skor.q7, s8: skor.q8, s9: skor.q9,
+        saran: document.getElementById('Saran').value 
+    };
 
-        // PROSES KIRIM KE GOOGLE SHEETS
-        fetch(urlScript, {
-            method: 'POST',
-            mode: 'no-cors',
-            body: JSON.stringify(dataBaru)
-        })
-        .then(() => {
-            console.log("Berhasil terkirim!");
-            setTimeout(() => {
-                window.location.href = "terimakasih.html?nama=" + encodeURIComponent(namaUser);
-            }, 1500);
-        })
-        .catch(e => {
-            console.error("Gagal kirim!", e);
-            alert("Koneksi gagal, data disimpan di lokal.");
-        });
-    }
+    // Proses kirim ke Google Sheets & Trigger Email Otomatis
+    fetch(urlScript, {
+        method: 'POST',
+        mode: 'no-cors',
+        body: JSON.stringify(dataBaru)
+    })
+    .then(() => {
+        console.log("Data berhasil dikirim!");
+        // Setelah 2 detik, pindah ke halaman terimakasih.html
+        setTimeout(() => {
+            window.location.href = "terimakasih.html?nama=" + encodeURIComponent(namaUser);
+        }, 2000);
+    })
+    .catch(e => console.error("Gagal mengirim:", e));
+}
 
    async function goRekap() { 
     go('Rekap'); 
