@@ -195,6 +195,7 @@
                     Dinas Kearsipan dan Perpustakaan Kabupaten Pekalongan dengan memberikan penilaian Anda.</p>
                 <div class="btn-group" style="justify-content: flex-start;">
                     <button class="btn" onclick="go(2)">MULAI SURVEI</button>
+                    <button class="btn btn-back" onclick="goRekap()">CEK LAPORAN</button>
                 </div>
                 <div class="extra-logos">
                     <img src="bangga.png" alt="Logo 1">  <img src="berakhlaq.png" alt="Logo 1"> </div>
@@ -388,7 +389,7 @@
 </div>
     </div>
 
-    <div id="pRekap">
+    <div id="pRekap" class="step">
         <h2 style="text-align:center;">Laporan Indeks Kepuasan</h2>
         <div style="text-align:center; margin-bottom:20px;">
             Filter Tahun: <select id="fTahun" onchange="renderRekap()" style="width:120px;"></select>
@@ -397,9 +398,8 @@
     <small id="label-laporan">IKM RATA-RATA KESELURUHAN</small>
     <div id="rAvg">Memuat...</div> 
     <div id="predikat-teks" style="font-size: 18px; margin-top: 10px; font-weight: bold;"></div>
-</div>
-
-        <div class="btn-group">
+        </div>
+ <div class="btn-group">
             <button class="btn btn-back" onclick="go(1)">KEMBALI KE BERANDA</button>
         </div>
      </div> <div style="text-align: center; padding: 20px; color: #666; font-size: 16px; border-top: 1px solid #eee; margin-top: 30px;">
@@ -433,21 +433,14 @@
     // PASTIKAN URL INI ADALAH HASIL DEPLOY "ANYONE" TERBARU
     const urlScript = "https://script.google.com/macros/s/AKfycbyCFi1BFcLEQ9w1f7O8osz9FKsQbgrfK-OcQqO-q9OZopOxnoC7tHKXfWJ3wwGuJrTpmA/exec";
 
-   window.onload = function() {
-    document.getElementById('thnKues').innerText = TAHUN_INI;
-
-    let st = document.getElementById('fTahun');
-    for (let i = TAHUN_INI; i >= TAHUN_INI - 2; i--) {
-        let o = document.createElement('option');
-        o.value = i;
-        o.innerText = i;
-        st.appendChild(o);
+    window.onload = function() {
+        document.getElementById('thnKues').innerText = TAHUN_INI;
+        let st = document.getElementById('fTahun');
+        for (let i = TAHUN_INI; i >= TAHUN_INI - 2; i--) {
+            let o = document.createElement('option'); o.value = i; o.innerText = i; st.appendChild(o);
+        }
+       
     }
-
-    // Panggil fetch TANPA go('Rekap')
-    ambilDataRekap();
-};
-
 
     function go(s) {
         document.querySelectorAll('.step').forEach(d => d.classList.remove('active'));
@@ -533,19 +526,6 @@
     .catch(e => console.error("Gagal mengirim:", e));
 }
 let dataGlobal = null;
-async function ambilDataRekap() {
-    try {
-        const respon = await fetch(urlScript);
-        const hasil = await respon.json();
-
-        dataGlobal = hasil;
-        renderRekap();
-    } catch (e) {
-        document.getElementById('rAvg').innerText = "Error";
-        console.error("Gagal koneksi:", e);
-    }
-}
-
 async function goRekap() { 
     go('Rekap'); 
     
@@ -608,4 +588,4 @@ async function goRekap() {
     }
 </script>
 </body>
-</html>
+</html> 
