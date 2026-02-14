@@ -195,7 +195,6 @@
                     Dinas Kearsipan dan Perpustakaan Kabupaten Pekalongan dengan memberikan penilaian Anda.</p>
                 <div class="btn-group" style="justify-content: flex-start;">
                     <button class="btn" onclick="go(2)">MULAI SURVEI</button>
-                    <button class="btn btn-back" onclick="goRekap()">CEK LAPORAN</button>
                 </div>
                 <div class="extra-logos">
                     <img src="bangga.png" alt="Logo 1">  <img src="berakhlaq.png" alt="Logo 1"> </div>
@@ -389,7 +388,7 @@
 </div>
     </div>
 
-    <div id="pRekap" class="step">
+    <div id="pRekap">
         <h2 style="text-align:center;">Laporan Indeks Kepuasan</h2>
         <div style="text-align:center; margin-bottom:20px;">
             Filter Tahun: <select id="fTahun" onchange="renderRekap()" style="width:120px;"></select>
@@ -399,22 +398,9 @@
     <div id="rAvg">Memuat...</div> 
     <div id="predikat-teks" style="font-size: 18px; margin-top: 10px; font-weight: bold;"></div>
 </div>
-        
-        <div id="adminArea" style="display:none;">
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr><th>Nama</th><th>JK</th><th>WA</th><th>Pekerjaan</th><th>Kecamatan</th><th>Layanan</th><th>Q1</th>
-                            <th>Q2</th><th>Q3</th><th>Q4</th><th>Q5</th><th>Q6</th><th>Q7</th><th>Q8</th><th>Q9</th><th>Saran</th><th>Skor</th><th>Aksi</th></tr>
-                    </thead>
-                    <tbody id="tBody"></tbody>
-                </table>
-            </div>
-        </div>
 
         <div class="btn-group">
             <button class="btn btn-back" onclick="go(1)">KEMBALI KE BERANDA</button>
-            <button id="btnLogin" class="btn" onclick="loginAdmin()">ADMIN LOGIN</button>
         </div>
      </div> <div style="text-align: center; padding: 20px; color: #666; font-size: 16px; border-top: 1px solid #eee; margin-top: 30px;">
     </span> Dinas Kearsipan dan Perpustakaan Kabupaten Pekalongan &copy; <span id="copyYear"></span><br>
@@ -444,18 +430,24 @@
     document.getElementById('copyYear').innerText = new Date().getFullYear();
     let skor = { q1: 0, q2: 0, q3: 0, q4: 0, q5: 0, q6: 0, q7: 0, q8: 0, q9: 0 };
     const TAHUN_INI = new Date().getFullYear();
-    let isAdmin = false;
     // PASTIKAN URL INI ADALAH HASIL DEPLOY "ANYONE" TERBARU
     const urlScript = "https://script.google.com/macros/s/AKfycbyCFi1BFcLEQ9w1f7O8osz9FKsQbgrfK-OcQqO-q9OZopOxnoC7tHKXfWJ3wwGuJrTpmA/exec";
 
-    window.onload = function() {
-        document.getElementById('thnKues').innerText = TAHUN_INI;
-        let st = document.getElementById('fTahun');
-        for (let i = TAHUN_INI; i >= TAHUN_INI - 2; i--) {
-            let o = document.createElement('option'); o.value = i; o.innerText = i; st.appendChild(o);
-        }
-       
+   window.onload = function() {
+    document.getElementById('thnKues').innerText = TAHUN_INI;
+
+    let st = document.getElementById('fTahun');
+    for (let i = TAHUN_INI; i >= TAHUN_INI - 2; i--) {
+        let o = document.createElement('option');
+        o.value = i;
+        o.innerText = i;
+        st.appendChild(o);
     }
+
+    // Panggil fetch TANPA go('Rekap')
+    ambilDataRekap();
+};
+
 
     function go(s) {
         document.querySelectorAll('.step').forEach(d => d.classList.remove('active'));
@@ -536,67 +528,76 @@
         // Setelah 2 detik, pindah ke halaman terimakasih.html
         setTimeout(() => {
             window.location.href = "terimakasih.html?nama=" + encodeURIComponent(namaUser);
-        }, 2000);
+        }, 800);
     })
     .catch(e => console.error("Gagal mengirim:", e));
 }
+let dataGlobal = null;
+async function ambilDataRekap() {
+    try {
+        const respon = await fetch(urlScript);
+        const hasil = await respon.json();
 
-   async function goRekap() { 
+        dataGlobal = hasil;
+        renderRekap();
+    } catch (e) {
+        document.getElementById('rAvg').innerText = "Error";
+        console.error("Gagal koneksi:", e);
+    }
+}
+
+async function goRekap() { 
     go('Rekap'); 
-    renderRekap(); 
     
-    // Kita panggil urlScript yang sudah kamu pasang di atas
+    let tahunDipilih = document.getElementById('fTahun').value.toString();
+    let rAvgElement = document.getElementById('rAvg');
+    let predikatElement = document.getElementById('predikat-teks');
+    
+    rAvgElement.innerText = "Memuat...";
+
     try {
         const respon = await fetch(urlScript); 
         const hasil = await respon.json();
-        
-        if (hasil && hasil.skor) {
-            // Mengubah angka dari Google Sheets ke tampilan persen di web
-            let nilaiFixed = parseFloat(hasil.skor).toFixed(2);
-            document.getElementById('rAvg').innerText = nilaiFixed + "%";
-            
-            // Predikat otomatis berdasarkan standar Permenpan
-            let pred = "BAIK";
-            if(nilaiFixed >= 88.31) pred = "SANGAT BAIK";
-            else if(nilaiFixed < 76.61) pred = "KURANG BAIK";
-            document.getElementById('predikat-teks').innerText = pred;
-        }
+
+        dataGlobal = hasil; // ← WAJIB ADA
+
+        renderRekap(); // ← panggil render setelah data ada
+
     } catch (e) {
-        console.error("Gagal koneksi ke link:", e);
+        rAvgElement.innerText = "Error";
+        console.error("Gagal koneksi:", e);
     }
 }
-    
 
-    function loginAdmin() {
-        let pass = prompt("Masukkan Password Admin:");
-        if(pass === "adminarpus") {
-            isAdmin = true;
-            document.getElementById('adminArea').style.display = 'block';
-            document.getElementById('btnLogin').style.display = 'none';
-            renderRekap();
-        } else if(pass !== null) {
-            alert("Password salah!");
-        }
+   function renderRekap() {
+    if (!dataGlobal) return;
+
+    let tahunDipilih = document.getElementById('fTahun').value.toString();
+    let rAvgElement = document.getElementById('rAvg');
+    let predikatElement = document.getElementById('predikat-teks');
+    let nilaiFinal = 0;
+
+    // 🔥 Versi Fleksibel
+    let histori = dataGlobal.dataHistori.find(item =>
+        String(item.tahun) === tahunDipilih
+    );
+
+    if (histori) {
+        nilaiFinal = histori.skor;
+    } else {
+        nilaiFinal = dataGlobal.skorLive;
     }
 
-    function renderRekap() {
-        let db = JSON.parse(localStorage.getItem('dbArpusResmi')) || [];
-        let filter = document.getElementById('fTahun').value;
-        let filtered = db.filter(i => i.y == filter);
-        let body = document.getElementById('tBody');
-        body.innerHTML = "";
+    let nilaiFixed = parseFloat(nilaiFinal).toFixed(2);
+    rAvgElement.innerText = nilaiFixed + "%";
 
-        filtered.forEach((i) => {
-            // Pembagi diganti 9 sesuai jumlah soal
-            let avg = Math.round((i.s1 + i.s2 + i.s3 + i.s4 + i.s5 + i.s6 + i.s7 + i.s8 + i.s9) / 9);
-            if(isAdmin) {
-                body.innerHTML += `<tr><td>${i.n}</td><td>${i.j}</td><td>${i.w}</td><td>${i.p}</td><td>${i.k}</td>
-                    <td>${i.l}</td><td>${i.s1}%</td><td>${i.s2}%</td><td>${i.s3}%</td><td>${i.s4}%</td><td>${i.s5}%</td>
-                    <td>${i.s6}%</td><td>${i.s7}%</td><td>${i.s8}%</td><td>${i.s9}%</td><td style="font-style: italic;">${i.saran || '-'}</td>
-                    <td><b>${avg}%</b></td><td><button onclick="hapus(${i.id})">🗑️</button></td></tr>`;
-            }
-        });
-    }
+    let pred = "BAIK";
+    if (nilaiFixed >= 88.31) pred = "SANGAT BAIK";
+    else if (nilaiFixed < 76.61) pred = "KURANG BAIK";
+
+    predikatElement.innerText = pred;
+}
+
 
     function hapus(id) {
         if(confirm("Hapus data responden ini?")) {
