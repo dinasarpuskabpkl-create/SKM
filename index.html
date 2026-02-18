@@ -4,7 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>E-Survei Arpus Pekalongan</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <style>
+        /* Sembunyikan laporan di layar HP */
+@media (max-width: 768px) {
+    #section-laporan {
+        display: none !important;
+    }
+}
+
+/* Munculkan kembali hanya di layar Laptop/Desktop */
+@media (min-width: 769px) {
+    #section-laporan {
+        display: block;
+    }
+}
+        .swiper {
+    width: 100%;
+    padding-bottom: 40px !important;
+}
+
+.swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto; /* Agar tinggi kartu sama */
+}
         :root { --biru: #003d7a; --langit: #007bff; --hijau: #28a745; --abu: #f8f9fa; --text: #333; }
         
         body { font-family: 'Segoe UI', sans-serif; background: #cbdcf7; margin: 0; min-height: 100vh; padding: 20px; display: flex; justify-content: center; color: var(--text); }
@@ -171,7 +197,95 @@
     .emoji-item span {
         font-size: 2rem !important;
     }
+/* Container Swiper */
+/* 1. Merampingkan Container & Kartu */
+.swiper {
+    max-width: 1100px; /* Membatasi lebar agar tidak melebar se-layar penuh */
+    margin: 0 auto;    /* Mengetengahkan slider */
+    padding: 20px 60px; /* Memberi ruang untuk panah di pinggir */
+}
 
+.skm-card-new {
+    background: white;
+    border-radius: 15px;
+    padding: 25px 15px;
+    text-align: center;
+    max-width: 280px; /* KUNCI: Membuat kartu lebih ramping */
+    margin: 0 auto;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    border: 1px solid #f0f0f0;
+}
+
+/* 2. Mengecilkan Tombol Panah Geser */
+.swiper-button-next, 
+.swiper-button-prev {
+    width: 50px !important;  /* Ukuran lingkaran panah */
+    height: 35px !important;
+    background: white;       /* Memberi background putih agar bersih */
+    border-radius: 50%;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    color: var(--biru) !important;
+}
+
+/* Mengecilkan icon panahnya saja */
+.swiper-button-next:after, 
+.swiper-button-prev:after {
+    font-size: 18px !important; /* Ukuran icon panah lebih kecil */
+    font-weight: bold;
+}
+
+/* Mengatur posisi panah agar tidak terlalu jauh ke luar */
+.swiper-button-prev { left: 10px !important; }
+.swiper-button-next { right: 10px !important; }
+
+/* Ukuran Judul Laporan agar tidak terlalu besar */
+.skm-card-new h3 {
+    font-size: 1.1rem;
+    margin: 15px 0 10px;
+    color: #333;
+}
+
+/* Tombol Biru Khas Layanan Publik */
+.btn-pdf-lihat {
+    display: inline-block;
+    text-decoration: none;
+    color: #007bff;
+    font-weight: 700;
+    border: 2px solid #007bff;
+    padding: 10px 25px;
+    border-radius: 30px;
+    font-size: 14px;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+
+.btn-pdf-lihat:hover {
+    background: #007bff;
+    color: white;
+}
+
+/* Warna titik pagination */
+.swiper-pagination-bullet-active {
+    background: #007bff !important;
+    width: 25px !important;
+    border-radius: 5px !important;
+}
+
+.btn-pdf-lihat {
+    display: inline-block;
+    text-decoration: none;
+    color: var(--langit);
+    font-weight: bold;
+    border: 1.5px solid var(--langit);
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 13px;
+    transition: 0.3s;
+}
+.btn-pdf-lihat:hover {
+    background: var(--langit);
+    color: white;
+}
     </style>
 </head>
 <body>
@@ -183,26 +297,109 @@
             <h2>Kabupaten Pekalongan</h2>
         </div>
     </div>
-
-    <div id="p1" class="step active">
-        <div class="welcome-split">
-            <div class="welcome-img">
-                <img src="gambar.png" alt="Library Illustration">
+<div id="p1" class="step active">
+    <div class="welcome-split">
+        <div class="welcome-img">
+            <img src="gambar.png" alt="Library Illustration">
+        </div>
+        <div class="welcome-text">
+            <h2 style="font-size: 42px; color: var(--biru); margin-bottom: 15px;">Survei Kepuasan Masyarakat</h2>
+            <p style="font-size: 19px; color: #666; margin-bottom: 35px;">Wujudkan pelayanan publik yang lebih baik bersama Dinas Kearsipan dan Perpustakaan Kabupaten Pekalongan.</p>
+            <div class="btn-group" style="justify-content: flex-start;">
+                <button class="btn" onclick="go(2)">MULAI SURVEI</button>
+                <button class="btn btn-back" onclick="goRekap()">CEK LAPORAN</button>
             </div>
-            <div class="welcome-text">
-                <h2 style="font-size: 42px; color: var(--biru); margin-bottom: 15px;">Survei Kepuasan Masyarakat</h2>
-                <p style="font-size: 19px; color: #666; margin-bottom: 35px;">Wujudkan pelayanan publik yang lebih baik bersama 
-                    Dinas Kearsipan dan Perpustakaan Kabupaten Pekalongan dengan memberikan penilaian Anda.</p>
-                <div class="btn-group" style="justify-content: flex-start;">
-                    <button class="btn" onclick="go(2)">MULAI SURVEI</button>
-                    <button class="btn btn-back" onclick="goRekap()">CEK LAPORAN</button>
-                </div>
-                <div class="extra-logos">
-                    <img src="bangga.png" alt="Logo 1">  <img src="berakhlaq.png" alt="Logo 1"> </div>
+            <div class="extra-logos">
+                <img src="bangga.png" alt="Logo 1">  <img src="berakhlaq.png" alt="Logo 2"> 
             </div>
         </div>
     </div>
 
+<div id="section-laporan" style="margin-top: 80px; border-top: 2px solid #eee; padding-top: 40px; width: 100%;">
+    <h2 style="text-align:center; color: var(--biru); font-weight: 800; text-transform: uppercase; margin-bottom: 30px;font-size: 35px;">
+        LAPORAN SURVEY KEPUASAN MASYARAKAT
+    </h2>
+
+    <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide"></div>
+            
+            <div class="swiper-slide">
+                <div class="skm-card-new">
+                    <img src="dinas.png" style="width: 60px; margin-bottom: 15px;">
+                    <h3>SKM Tahun 2018</h3>
+                    <p>Laporan SKM Dinas Kearsipan dan Perpustakaan Tahun 2018</p>
+                    <a href="https://drive.google.com/file/d/1DcBeUgZFVUlDktsgkEthfhKNEYYOHpIo/view" target="_blank" class="btn-pdf-lihat">Lihat Laporan →</a>
+                </div>
+            </div>
+             <div class="swiper-slide">
+                <div class="skm-card-new">
+                    <img src="dinas.png" style="width: 60px; margin-bottom: 15px;">
+                    <h3>SKM Tahun 2019</h3>
+                    <p>Laporan SKM Dinas Kearsipan dan Perpustakaan Tahun 2019</p>
+                    <a href="https://drive.google.com/file/d/1EB5QSL_z-7LnByrJSHzC6ZrSfcG0U7cl/view" target="_blank" class="btn-pdf-lihat">Lihat Laporan →</a>
+                </div>
+            </div>
+            <div class="swiper-slide">
+                <div class="skm-card-new">
+                 <img src="dinas.png" style="width: 60px; margin-bottom: 15px;">
+                    <h3>SKM Tahun 2020</h3>
+                    <p>Laporan SKM Dinas Kearsipan dan Perpustakaan Tahun 2020</p>
+                    <a href="https://drive.google.com/file/d/1orGrL5DoD95U-GKkGH0fyYBSRTmhiuQo/view" target="_blank" class="btn-pdf-lihat">Lihat Laporan →</a>
+                </div>
+            </div>
+             <div class="swiper-slide">
+                <div class="skm-card-new">
+                 <img src="dinas.png" style="width: 60px; margin-bottom: 15px;">
+                    <h3>SKM Tahun 2021</h3>
+                    <p>Laporan SKM Dinas Kearsipan dan Perpustakaan Tahun 2021</p>
+                    <a href="https://drive.google.com/file/d/1iacGphsFtFHfK-j1BM9i2Rw2JMeZd4xd/view" target="_blank" class="btn-pdf-lihat">Lihat Laporan →</a>
+                </div>
+            </div>
+            <div class="swiper-slide">
+                <div class="skm-card-new">
+                    <img src="dinas.png" style="width: 60px; margin-bottom: 15px;">
+                    <h3>SKM Tahun 2022</h3>
+                    <p>Laporan SKM Dinas Kearsipan dan Perpustakaan Tahun 2022</p>
+                    <a href="https://drive.google.com/file/d/111uSekZNfCz3M6AhoarU9kqRSJXZb3G3/view" target="_blank" class="btn-pdf-lihat">Lihat Laporan →</a>
+                </div>
+            </div>
+            <div class="swiper-slide">
+                <div class="skm-card-new">
+                    <img src="dinas.png" style="width: 60px; margin-bottom: 15px;">
+                    <h3>SKM Tahun 2023</h3>
+                    <p>Laporan SKM Dinas Kearsipan dan Perpustakaan Tahun 2023</p>
+                    <a href="https://drive.google.com/file/d/1VOuVLAj4UoVE5sdkE6MVyZsnccSlcheu/view" target="_blank" class="btn-pdf-lihat">Lihat Laporan →</a>
+                </div>
+            </div>
+             <div class="swiper-slide">
+                <div class="skm-card-new">
+                    <img src="dinas.png" style="width: 60px; margin-bottom: 15px;">
+                    <h3>SKM Tahun 2024</h3>
+                    <p>Laporan SKM Dinas Kearsipan dan Perpustakaan Tahun 2024</p>
+                    <a href="https://drive.google.com/file/d/19x7DGrcDcFn34jn-A50KnD7avNHMtusG/view" target="_blank" class="btn-pdf-lihat">Lihat Laporan →</a>
+                </div>
+            </div>
+             <div class="swiper-slide">
+                <div class="skm-card-new">
+                    <img src="dinas.png" style="width: 60px; margin-bottom: 15px;">
+                    <h3>SKM Tahun 2025</h3>
+                    <p>Laporan SKM Dinas Kearsipan dan Perpustakaan Tahun 2025</p>
+                    <a href="https://drive.google.com/file/d/1rTebrhEmeMky2N5YqViFUxXC_ZVnMKDI/view" target="_blank" class="btn-pdf-lihat">Lihat Laporan →</a>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+    </div>
+</div>
+        <div class="swiper-pagination" style="bottom: 0;"></div>
+    </div>
+
+    
     <div id="p2" class="step">
         <h2 style="text-align: center; margin-bottom: 30px;">BIODATA RESPONDEN</h2>
         <div class="form-grid">
@@ -388,27 +585,24 @@
     </div>
 </div>
     </div>
-
-    <div id="pRekap" class="step">
+<div id="pRekap" class="step">
         <h2 style="text-align:center;">Laporan Indeks Kepuasan</h2>
         <div style="text-align:center; margin-bottom:20px;">
             Filter Tahun: <select id="fTahun" onchange="renderRekap()" style="width:120px;"></select>
         </div>
         <div class="card-indeks" id="kotak-skor">
-    <small id="label-laporan">IKM RATA-RATA KESELURUHAN</small>
-    <div id="rAvg">Memuat...</div> 
-    <div id="predikat-teks" style="font-size: 18px; margin-top: 10px; font-weight: bold;"></div>
+            <small id="label-laporan">IKM RATA-RATA KESELURUHAN</small>
+            <div id="rAvg">Memuat...</div> 
+            <div id="predikat-teks" style="font-size: 18px; margin-top: 10px; font-weight: bold;"></div>
         </div>
- <div class="btn-group">
+        <div class="btn-group">
             <button class="btn btn-back" onclick="go(1)">KEMBALI KE BERANDA</button>
         </div>
-     </div> <div style="text-align: center; padding: 20px; color: #666; font-size: 16px; border-top: 1px solid #eee; margin-top: 30px;">
-    </span> Dinas Kearsipan dan Perpustakaan Kabupaten Pekalongan &copy; <span id="copyYear"></span><br>
-    </div>   
-    </div>
-</div>
+    </div> <div style="text-align: center; padding: 20px; color: #666; font-size: 14px; border-top: 1px solid #eee; margin-top: 30px;">
+        Dinas Kearsipan dan Perpustakaan Kabupaten Pekalongan &copy; <span id="copyYear"></span>
+    </div> 
 
-<div id="modalKonfirmasi" class="modal-overlay">
+</div> <div id="modalKonfirmasi" class="modal-overlay">
     <div class="modal-content">
         <h2 style="color:var(--biru); margin-top:0;">Konfirmasi</h2>
         <p style="font-size:18px;">Apakah Anda sudah yakin dengan jawabannya?</p>
@@ -424,7 +618,6 @@
     <h1 style="color:var(--hijau); margin:0;">Terima Kasih!</h1>
     <p style="font-size:18px; color:#666;">Data Anda telah berhasil disimpan.</p>
 </div>
-
 
 <script>
     document.getElementById('copyYear').innerText = new Date().getFullYear();
@@ -586,6 +779,48 @@ async function goRekap() {
             renderRekap();
         }
     }
+</script>
+<script>
+        // ... kode JavaScript lainnya (seperti fungsi go, prosesSimpan, dll) ...
+
+        // GANTI BAGIAN INI:
+        var swiper = new Swiper(".mySwiper", {
+            slidesPerView: 3,       // Menampilkan 3 kartu di laptop
+            spaceBetween: 30,      // Memberi jarak antar kartu
+            loop: true,
+            autoplay: {
+                delay: 3000,       // Biar bisa geser otomatis
+                disableOnInteraction: false,
+            },
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+            breakpoints: {
+                // Di bawah 768px (HP) muncul 1 kartu
+                0: {
+                    slidesPerView: 1,
+                    spaceBetween: 10
+                },
+                // Di atas 768px (Tablet) muncul 2 kartu
+                768: {
+                    slidesPerView: 2,
+                    spaceBetween: 20
+                },
+                // Di atas 1024px (Laptop) muncul 3 kartu
+                1024: {
+                    slidesPerView: 3,
+                    spaceBetween: 30
+                }
+            }
+        });
+    </script>
+</body>
+</html>
 </script>
 </body>
 </html> 
